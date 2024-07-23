@@ -1,51 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Loan Evaluator</title>
-  <link href="style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Loan Evaluator</title>
+    <link href="dist/style.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 p-8">
-  <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h1 class="text-2xl font-bold mb-4">Student Loan Evaluator</h1>
-    <form id="loanForm" class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Loan Type</label>
-        <select id="loanType" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-          <option value="private">Private Loan</option>
-          <option value="public_subsidized">Public Subsidized Loan</option>
-          <option value="public_unsubsidized">Public Unsubsidized Loan</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Interest Rate (%)</label>
-        <input type="number" id="interestRate" step="0.01" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Repayment Period (years)</label>
-        <input type="number" id="repaymentPeriod" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Expected Salary (annual)</label>
-        <input type="number" id="expectedSalary" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Current Debt</label>
-        <input type="number" id="currentDebt" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Future Borrowing Needs</label>
-        <input type="number" id="futureBorrowing" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-      </div>
-      <div class="flex justify-end">
-        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none">Evaluate</button>
-      </div>
-    </form>
-    <div id="results" class="mt-6 hidden">
-      <!-- Results will be displayed here -->
+<body>
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-4">Student Loan Evaluator</h1>
+        
+        <form id="loanForm">
+            <div id="loansContainer" class="mb-4">
+                <div class="flex flex-row items-center font-bold bg-gray-100 p-2">
+                    <div class="w-1/12"></div>
+                    <div class="w-2/12">Year</div>
+                    <div class="w-3/12">Loan Type</div>
+                    <div class="w-3/12">Loan Amount</div>
+                    <div class="w-3/12">Interest Rate (%)</div>
+                </div>
+            </div>
+            <div class="flex items-center justify-center mb-4">
+                <button type="button" id="addLoan" class="bg-green-500 text-white font-bold py-2 px-4 rounded-full">+</button>
+            </div>
+            
+            <h2 class="text-xl font-bold mb-2">Repayment Preferences</h2>
+            <div class="mb-4">
+                <label for="repaymentPeriod" class="block text-sm font-medium text-gray-700">Repayment Period (years)</label>
+                <input type="range" id="repaymentPeriod" name="repaymentPeriod" min="5" max="30" value="10" class="w-full">
+                <span id="repaymentPeriodValue" class="text-sm font-medium text-gray-700">10 years</span>
+            </div>
+            <div class="mb-4">
+                <label for="prioritizationMethod" class="block text-sm font-medium text-gray-700">Loan Prioritization Method</label>
+                <select id="prioritizationMethod" name="prioritizationMethod" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="highestInterest">Highest Interest Rate First</option>
+                    <option value="smallestBalance">Smallest Balance First</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="bg-indigo-500 text-white font-bold py-2 px-4 rounded">Evaluate</button>
+        </form>
+        
+        <div id="results" class="mt-4 hidden">
+            <h2 class="text-xl font-bold mb-2">Results</h2>
+            <p id="totalMonthlyRepayment"></p>
+            <p id="totalRepayment"></p>
+            <p id="totalCostOfLoans"></p>
+        </div>
+        
+        <p id="sourceNote" class="mt-4 hidden text-sm text-gray-500">* Interest rates pulled from <a href="https://studentaid.gov/understand-aid/types/loans/interest-rates" target="_blank" class="text-indigo-500">Federal Student Aid</a></p>
     </div>
-  </div>
-  <script src="app.js"></script>
+    
+    <script src="app.js"></script>
 </body>
 </html>

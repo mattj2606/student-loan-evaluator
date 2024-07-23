@@ -1,0 +1,99 @@
+{
+  "rates": [
+    {
+      "year": 2024,
+      "subsidized_undergraduate": 6.53,
+      "unsubsidized_undergraduate": 6.53
+    },
+    {
+      "year": 2023,
+      "subsidized_undergraduate": 5.50,
+      "unsubsidized_undergraduate": 5.50
+    },
+    {
+      "year": 2022,
+      "subsidized_undergraduate": 4.99,
+      "unsubsidized_undergraduate": 4.99
+    },
+    {
+      "year": 2021,
+      "subsidized_undergraduate": 3.73,
+      "unsubsidized_undergraduate": 3.73
+    },
+    {
+      "year": 2020,
+      "subsidized_undergraduate": 2.75,
+      "unsubsidized_undergraduate": 2.75
+    },
+    {
+      "year": 2019,
+      "subsidized_undergraduate": 4.53,
+      "unsubsidized_undergraduate": 4.53
+    },
+    {
+      "year": 2018,
+      "subsidized_undergraduate": 5.05,
+      "unsubsidized_undergraduate": 5.05
+    },
+    {
+      "year": 2017,
+      "subsidized_undergraduate": 4.45,
+      "unsubsidized_undergraduate": 4.45
+    },
+    {
+      "year": 2016,
+      "subsidized_undergraduate": 3.76,
+      "unsubsidized_undergraduate": 3.76
+    },
+    {
+      "year": 2015,
+      "subsidized_undergraduate": 4.29,
+      "unsubsidized_undergraduate": 4.29
+    },
+    {
+      "year": 2014,
+      "subsidized_undergraduate": 4.66,
+      "unsubsidized_undergraduate": 4.66
+    },
+    {
+      "year": 2013,
+      "subsidized_undergraduate": 3.86,
+      "unsubsidized_undergraduate": 3.86
+    },
+    {
+      "year": 2012,
+      "subsidized_undergraduate": 3.40,
+      "unsubsidized_undergraduate": 6.80
+    },
+    {
+      "year": 2011,
+      "subsidized_undergraduate": 4.50,
+      "unsubsidized_undergraduate": 6.80
+    },
+    {
+      "year": 2010,
+      "subsidized_undergraduate": 4.50,
+      "unsubsidized_undergraduate": 6.80
+    },
+    {
+      "year": 2009,
+      "subsidized_undergraduate": 5.60,
+      "unsubsidized_undergraduate": 6.80
+    },
+    {
+      "year": 2008,
+      "subsidized_undergraduate": 6.00,
+      "unsubsidized_undergraduate": 6.80
+    },
+    {
+      "year": 2007,
+      "subsidized_undergraduate": 6.00,
+      "unsubsidized_undergraduate": 6.80
+    },
+    {
+      "year": 2006,
+      "subsidized_undergraduate": 6.00,
+      "unsubsidized_undergraduate": 6.80
+    }
+  ]
+}
