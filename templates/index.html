@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Loan Evaluator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        .calculator-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .result-container {
+            display: none;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+        .loan-card {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+        }
+        .burden-indicator {
+            width: 100%;
+            height: 20px;
+            border-radius: 10px;
+            margin-top: 0.5rem;
+        }
+        .burden-green {
+            background-color: #28a745;
+        }
+        .burden-yellow {
+            background-color: #ffc107;
+        }
+        .burden-red {
+            background-color: #dc3545;
+        }
+        .tab-content {
+            padding: 1rem 0;
+        }
+        .nav-tabs .nav-link.active {
+            font-weight: bold;
+        }
+        .education-summary {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+        .summary-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .summary-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .summary-label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .summary-value {
+            font-size: 1.1rem;
+        }
+        .summary-warning {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .summary-success {
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator-container">
+            <h1 class="text-center mb-4">Student Loan Evaluator</h1>
+            
+            <ul class="nav nav-tabs" id="calculatorTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="loans-tab" data-bs-toggle="tab" data-bs-target="#loans" type="button" role="tab" aria-controls="loans" aria-selected="true">Loan Calculator</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="education-tab" data-bs-toggle="tab" data-bs-target="#education" type="button" role="tab" aria-controls="education" aria-selected="false">Education Planning</button>
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="calculatorTabsContent">
+                <!-- Combined Loan Calculator Tab -->
+                <div class="tab-pane fade show active" id="loans" role="tabpanel" aria-labelledby="loans-tab">
+                    <form id="loanForm">
+                        <div id="loansContainer">
+                            <!-- Loan cards will be added here -->
+                        </div>
+                        
+                        <button type="button" class="btn btn-outline-primary mb-3" id="addLoanBtn">
+                            <i class="bi bi-plus-circle"></i> Add Another Loan
+                        </button>
+                        
+                        <div class="mb-3">
+                            <label for="annualSalary" class="form-label">Expected Annual Salary ($) - Optional</label>
+                            <input type="number" class="form-control" id="annualSalary" min="0" step="100" value="50000">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">Calculate</button>
+                    </form>
+                    
+                    <div class="result-container" id="resultContainer">
+                        <h3 class="text-center mb-3">Results</h3>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <h5>Total Monthly Payment</h5>
+                                    <p id="totalMonthlyPaymentResult" class="h4">$0</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <h5>Total Principal</h5>
+                                    <p id="totalPrincipalResult" class="h4">$0</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <h5>Total Interest</h5>
+                                    <p id="totalInterestResult" class="h4">$0</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="text-center">
+                                    <h5>Longest Payoff Time</h5>
+                                    <p id="maxPayoffTimeResult" class="h4">0 years</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-center">
+                                    <h5>Loan Burden</h5>
+                                    <p id="loanBurdenResult" class="h4">N/A</p>
+                                    <div id="burdenIndicator" class="burden-indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="text-center">
+                                    <h5>Minimum Salary Needed</h5>
+                                    <p id="minimumSalaryResult" class="h4">N/A</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Education Planning Tab -->
+                <div class="tab-pane fade" id="education" role="tabpanel" aria-labelledby="education-tab">
+                    <form id="educationForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="majorSelect" class="form-label">Major/Occupation</label>
+                                    <select class="form-select" id="majorSelect">
+                                        <option value="">Select a major...</option>
+                                        <!-- Majors will be loaded here -->
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="customSalary" class="form-label">Custom Starting Salary ($) - Optional</label>
+                                    <input type="number" class="form-control" id="customSalary" min="0" step="1000">
+                                    <div class="form-text">Leave blank to use the typical salary for the selected major</div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="schoolSelect" class="form-label">School</label>
+                                    <select class="form-select" id="schoolSelect">
+                                        <option value="">Select a school...</option>
+                                        <!-- Schools will be loaded here -->
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="inStateCheck" checked>
+                                        <label class="form-check-label" for="inStateCheck">
+                                            In-state student
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="yearsOfStudy" class="form-label">Years of Study</label>
+                                    <input type="number" class="form-control" id="yearsOfStudy" min="1" max="6" value="4">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="grantsScholarships" class="form-label">Grants & Scholarships ($)</label>
+                                    <input type="number" class="form-control" id="grantsScholarships" min="0" step="1000" value="0">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="education-summary" id="educationSummary">
+                                    <h4 class="text-center mb-3">Education Summary</h4>
+                                    
+                                    <div class="summary-item">
+                                        <div class="summary-label">Selected Major:</div>
+                                        <div class="summary-value" id="selectedMajorValue">Not selected</div>
+                                        <div class="summary-label mt-2">Typical Starting Salary:</div>
+                                        <div class="summary-value" id="typicalSalaryValue">N/A</div>
+                                    </div>
+                                    
+                                    <div class="summary-item">
+                                        <div class="summary-label">Selected School:</div>
+                                        <div class="summary-value" id="selectedSchoolValue">Not selected</div>
+                                        <div class="summary-label mt-2">Annual Cost:</div>
+                                        <div class="summary-value" id="annualCostValue">N/A</div>
+                                    </div>
+                                    
+                                    <div class="summary-item">
+                                        <div class="summary-label">Total Cost of Education:</div>
+                                        <div class="summary-value" id="totalCostValue">N/A</div>
+                                        <div class="summary-label mt-2">Out-of-Pocket Cost:</div>
+                                        <div class="summary-value" id="outOfPocketValue">N/A</div>
+                                    </div>
+                                    
+                                    <div class="summary-item">
+                                        <div class="summary-label">Income vs. Loan Analysis:</div>
+                                        <div class="summary-value mt-2" id="incomeAnalysisValue">Complete the loan calculator to see analysis</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Calculate Education Costs</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Global variables
+        let majorsData = [];
+        let schoolsData = [];
+        let loanCount = 0;
+        
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load majors and schools data
+            fetch('/api/majors')
+                .then(response => response.json())
+                .then(data => {
+                    majorsData = data.majors || [];
+                    populateMajorsDropdown();
+                })
+                .catch(error => console.error('Error loading majors:', error));
+                
+            fetch('/api/schools')
+                .then(response => response.json())
+                .then(data => {
+                    schoolsData = data.schools || [];
+                    populateSchoolsDropdown();
+                })
+                .catch(error => console.error('Error loading schools:', error));
+                
+            // Initialize event listeners
+            initializeEventListeners();
+            
+            // Add initial loan card
+            document.getElementById('loansContainer').appendChild(createLoanCard());
+        });
+        
+        // Initialize event listeners
+        function initializeEventListeners() {
+            // Loan form submission
+            document.getElementById('loanForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                calculateLoans();
+            });
+            
+            // Education form submission
+            document.getElementById('educationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                calculateEducationCosts();
+            });
+            
+            // Add loan button
+            document.getElementById('addLoanBtn').addEventListener('click', function() {
+                document.getElementById('loansContainer').appendChild(createLoanCard());
+            });
+            
+            // Remove loan button
+            document.getElementById('loansContainer').addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-loan') || e.target.parentElement.classList.contains('remove-loan')) {
+                    const button = e.target.classList.contains('remove-loan') ? e.target : e.target.parentElement;
+                    const loanId = button.getAttribute('data-loan-id');
+                    document.getElementById(loanId).remove();
+                }
+            });
+            
+            // Major selection change
+            document.getElementById('majorSelect').addEventListener('change', function() {
+                updateMajorInfo();
+                calculateEducationCosts();
+            });
+            
+            // School selection change
+            document.getElementById('schoolSelect').addEventListener('change', function() {
+                calculateEducationCosts();
+            });
+            
+            // In-state checkbox change
+            document.getElementById('inStateCheck').addEventListener('change', function() {
+                calculateEducationCosts();
+            });
+            
+            // Custom salary input change
+            document.getElementById('customSalary').addEventListener('input', function() {
+                updateSalaryInfo();
+            });
+            
+            // Years of study change
+            document.getElementById('yearsOfStudy').addEventListener('input', function() {
+                calculateEducationCosts();
+            });
+            
+            // Grants and scholarships change
+            document.getElementById('grantsScholarships').addEventListener('input', function() {
+                calculateEducationCosts();
+            });
+        }
+        
+        // Populate majors dropdown
+        function populateMajorsDropdown() {
+            const majorSelect = document.getElementById('majorSelect');
+            majorSelect.innerHTML = '<option value="">Select a major...</option>';
+            
+            majorsData.forEach(major => {
+                const option = document.createElement('option');
+                option.value = major.id;
+                option.textContent = major.name;
+                majorSelect.appendChild(option);
+            });
+        }
+        
+        // Populate schools dropdown
+        function populateSchoolsDropdown() {
+            const schoolSelect = document.getElementById('schoolSelect');
+            schoolSelect.innerHTML = '<option value="">Select a school...</option>';
+            
+            schoolsData.forEach(school => {
+                const option = document.createElement('option');
+                option.value = school.id;
+                option.textContent = school.name;
+                schoolSelect.appendChild(option);
+            });
+        }
+        
+        // Create a new loan card
+        function createLoanCard() {
+            const loanId = `loan-${loanCount++}`;
+            const loanCard = document.createElement('div');
+            loanCard.className = 'loan-card';
+            loanCard.id = loanId;
+            
+            loanCard.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5>Loan ${loanCount}</h5>
+                    <button type="button" class="btn btn-sm btn-outline-danger remove-loan" data-loan-id="${loanId}">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Loan Type</label>
+                    <select class="form-select loan-type" required>
+                        <option value="federal">Federal Loan</option>
+                        <option value="private">Private Loan</option>
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Loan Amount ($)</label>
+                    <input type="number" class="form-control loan-amount" required min="0" step="0.01" value="10000.00">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Annual Interest Rate (%)</label>
+                    <input type="number" class="form-control loan-rate" required min="0" step="0.01" value="5.0">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Loan Term (Years)</label>
+                    <input type="number" class="form-control loan-term" required min="1" max="30" value="10">
+                </div>
+            `;
+            
+            return loanCard;
+        }
+        
+        // Update major information
+        function updateMajorInfo() {
+            const majorId = document.getElementById('majorSelect').value;
+            const customSalary = document.getElementById('customSalary').value;
+            
+            if (majorId) {
+                const major = majorsData.find(m => m.id === majorId);
+                if (major) {
+                    document.getElementById('selectedMajorValue').textContent = major.name;
+                    
+                    if (customSalary) {
+                        document.getElementById('typicalSalaryValue').textContent = '$' + parseInt(customSalary).toLocaleString();
+                    } else {
+                        document.getElementById('typicalSalaryValue').textContent = '$' + major.starting_salary.toLocaleString();
+                    }
+                }
+            } else {
+                document.getElementById('selectedMajorValue').textContent = 'Not selected';
+                document.getElementById('typicalSalaryValue').textContent = 'N/A';
+            }
+        }
+        
+        // Update salary information
+        function updateSalaryInfo() {
+            const majorId = document.getElementById('majorSelect').value;
+            const customSalary = document.getElementById('customSalary').value;
+            
+            if (majorId && customSalary) {
+                document.getElementById('typicalSalaryValue').textContent = '$' + parseInt(customSalary).toLocaleString();
+            } else if (majorId) {
+                const major = majorsData.find(m => m.id === majorId);
+                if (major) {
+                    document.getElementById('typicalSalaryValue').textContent = '$' + major.starting_salary.toLocaleString();
+                }
+            }
+        }
+        
+        // Calculate education costs
+        function calculateEducationCosts() {
+            const schoolId = document.getElementById('schoolSelect').value;
+            const isInState = document.getElementById('inStateCheck').checked;
+            const years = parseInt(document.getElementById('yearsOfStudy').value);
+            const grants = parseFloat(document.getElementById('grantsScholarships').value);
+            
+            if (!schoolId) {
+                document.getElementById('selectedSchoolValue').textContent = 'Not selected';
+                document.getElementById('annualCostValue').textContent = 'N/A';
+                document.getElementById('totalCostValue').textContent = 'N/A';
+                document.getElementById('outOfPocketValue').textContent = 'N/A';
+                return;
+            }
+            
+            const school = schoolsData.find(s => s.id === schoolId);
+            if (school) {
+                document.getElementById('selectedSchoolValue').textContent = school.name;
+                
+                const tuition = isInState ? school.in_state_tuition : school.out_of_state_tuition;
+                const annualCost = tuition + school.room_and_board + school.fees;
+                const totalCost = annualCost * years;
+                const outOfPocket = Math.max(0, totalCost - grants);
+                
+                document.getElementById('annualCostValue').textContent = '$' + annualCost.toLocaleString();
+                document.getElementById('totalCostValue').textContent = '$' + totalCost.toLocaleString();
+                document.getElementById('outOfPocketValue').textContent = '$' + outOfPocket.toLocaleString();
+                
+                // Update income analysis if we have salary info
+                updateIncomeAnalysis();
+            }
+        }
+        
+        // Update income analysis
+        function updateIncomeAnalysis() {
+            const majorId = document.getElementById('majorSelect').value;
+            const customSalary = document.getElementById('customSalary').value;
+            const outOfPocketElement = document.getElementById('outOfPocketValue');
+            
+            if (!majorId || outOfPocketElement.textContent === 'N/A') {
+                document.getElementById('incomeAnalysisValue').textContent = 'Complete the loan calculator to see analysis';
+                return;
+            }
+            
+            let annualSalary;
+            if (customSalary) {
+                annualSalary = parseInt(customSalary);
+            } else {
+                const major = majorsData.find(m => m.id === majorId);
+                if (major) {
+                    annualSalary = major.starting_salary;
+                } else {
+                    document.getElementById('incomeAnalysisValue').textContent = 'Complete the loan calculator to see analysis';
+                    return;
+                }
+            }
+            
+            const outOfPocket = parseFloat(outOfPocketElement.textContent.replace('$', '').replace(/,/g, ''));
+            
+            // Calculate minimum salary needed (assuming 8% of monthly income for loan payments)
+            const monthlyPayment = outOfPocket / (12 * 10); // Assuming 10-year repayment
+            const minimumSalary = monthlyPayment / 0.08 * 12;
+            
+            let analysisText = '';
+            if (annualSalary >= minimumSalary) {
+                analysisText = `<span class="summary-success">Your expected salary of $${annualSalary.toLocaleString()} should be sufficient to repay your loans.</span>`;
+            } else {
+                analysisText = `<span class="summary-warning">Your expected salary of $${annualSalary.toLocaleString()} may not be sufficient to repay your loans. You would need at least $${Math.ceil(minimumSalary).toLocaleString()} annually.</span>`;
+            }
+            
+            document.getElementById('incomeAnalysisValue').innerHTML = analysisText;
+        }
+        
+        // Calculate loans
+        async function calculateLoans() {
+            const loans = [];
+            const loanCards = document.querySelectorAll('.loan-card');
+            
+            loanCards.forEach(card => {
+                loans.push({
+                    loan_type: card.querySelector('.loan-type').value,
+                    loan_amount: parseFloat(card.querySelector('.loan-amount').value),
+                    interest_rate: parseFloat(card.querySelector('.loan-rate').value),
+                    loan_term: parseFloat(card.querySelector('.loan-term').value)
+                });
+            });
+            
+            const data = {
+                loans: loans,
+                annual_salary: parseFloat(document.getElementById('annualSalary').value) || 0
+            };
+
+            try {
+                const response = await fetch('/calculate_multiple', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('totalMonthlyPaymentResult').textContent = `$${result.total_monthly_payment.toLocaleString()}`;
+                    document.getElementById('totalPrincipalResult').textContent = `$${result.total_principal.toLocaleString()}`;
+                    document.getElementById('totalInterestResult').textContent = `$${result.total_interest.toLocaleString()}`;
+                    
+                    // Format payoff time with years and months
+                    let payoffTimeText = `${result.max_years} years`;
+                    if (result.max_months > 0) {
+                        payoffTimeText += ` and ${result.max_months} months`;
+                    }
+                    document.getElementById('maxPayoffTimeResult').textContent = payoffTimeText;
+                    
+                    // Update loan burden if salary was provided
+                    if (data.annual_salary > 0 && result.burden_percentage !== undefined) {
+                        document.getElementById('loanBurdenResult').textContent = `${result.burden_percentage}% of income`;
+                        
+                        const burdenIndicator = document.getElementById('burdenIndicator');
+                        burdenIndicator.className = 'burden-indicator';
+                        burdenIndicator.classList.add(`burden-${result.category}`);
+                    } else {
+                        document.getElementById('loanBurdenResult').textContent = 'N/A';
+                        document.getElementById('burdenIndicator').className = 'burden-indicator';
+                    }
+                    
+                    // Update minimum salary needed
+                    if (result.minimum_salary !== undefined) {
+                        document.getElementById('minimumSalaryResult').textContent = `$${result.minimum_salary.toLocaleString()}`;
+                    } else {
+                        document.getElementById('minimumSalaryResult').textContent = 'N/A';
+                    }
+                    
+                    document.getElementById('resultContainer').style.display = 'block';
+                } else {
+                    alert(result.error || 'An error occurred');
+                }
+            } catch (error) {
+                alert('An error occurred while calculating the loans');
+            }
+        }
+    </script>
+</body>
+</html> 

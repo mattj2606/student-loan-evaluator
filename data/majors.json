@@ -1,0 +1,74 @@
+{
+  "majors": [
+    {
+      "id": "cs",
+      "name": "Computer Science",
+      "starting_salary": 75000,
+      "job_outlook": "Excellent",
+      "description": "Study of computers, computing, and computational systems"
+    },
+    {
+      "id": "engineering",
+      "name": "Engineering",
+      "starting_salary": 70000,
+      "job_outlook": "Good",
+      "description": "Application of scientific and mathematical principles to design and build systems"
+    },
+    {
+      "id": "business",
+      "name": "Business Administration",
+      "starting_salary": 55000,
+      "job_outlook": "Good",
+      "description": "Study of business operations, management, and economics"
+    },
+    {
+      "id": "nursing",
+      "name": "Nursing",
+      "starting_salary": 65000,
+      "job_outlook": "Excellent",
+      "description": "Healthcare profession focused on patient care"
+    },
+    {
+      "id": "psychology",
+      "name": "Psychology",
+      "starting_salary": 45000,
+      "job_outlook": "Moderate",
+      "description": "Study of human behavior and mental processes"
+    },
+    {
+      "id": "biology",
+      "name": "Biology",
+      "starting_salary": 48000,
+      "job_outlook": "Moderate",
+      "description": "Study of living organisms and their interactions"
+    },
+    {
+      "id": "communications",
+      "name": "Communications",
+      "starting_salary": 50000,
+      "job_outlook": "Moderate",
+      "description": "Study of how people communicate and create meaning"
+    },
+    {
+      "id": "education",
+      "name": "Education",
+      "starting_salary": 42000,
+      "job_outlook": "Moderate",
+      "description": "Preparation for teaching and educational leadership"
+    },
+    {
+      "id": "finance",
+      "name": "Finance",
+      "starting_salary": 60000,
+      "job_outlook": "Good",
+      "description": "Study of money management, investments, and financial planning"
+    },
+    {
+      "id": "marketing",
+      "name": "Marketing",
+      "starting_salary": 52000,
+      "job_outlook": "Good",
+      "description": "Study of promoting and selling products or services"
+    }
+  ]
+} 

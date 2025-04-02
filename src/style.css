@@ -1,0 +1,35 @@
+/* Tailwind CSS styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+.addLoan, .removeLoan {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.addLoan {
+  background-color: green;
+  color: white;
+}
+
+.addLoan:hover {
+  background-color: darkgreen;
+}
+
+.removeLoan {
+  background-color: red;
+  color: white;
+}
+
+.removeLoan:hover {
+  background-color: darkred;
+}

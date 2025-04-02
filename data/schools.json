@@ -1,0 +1,104 @@
+{
+  "schools": [
+    {
+      "id": "harvard",
+      "name": "Harvard University",
+      "in_state_tuition": 51925,
+      "out_of_state_tuition": 51925,
+      "room_and_board": 18789,
+      "fees": 4500,
+      "location": "Cambridge, MA",
+      "description": "Private Ivy League research university"
+    },
+    {
+      "id": "berkeley",
+      "name": "University of California, Berkeley",
+      "in_state_tuition": 14185,
+      "out_of_state_tuition": 44263,
+      "room_and_board": 16700,
+      "fees": 2500,
+      "location": "Berkeley, CA",
+      "description": "Public research university"
+    },
+    {
+      "id": "texas",
+      "name": "University of Texas at Austin",
+      "in_state_tuition": 11000,
+      "out_of_state_tuition": 39500,
+      "room_and_board": 12000,
+      "fees": 2000,
+      "location": "Austin, TX",
+      "description": "Public research university"
+    },
+    {
+      "id": "michigan",
+      "name": "University of Michigan",
+      "in_state_tuition": 15500,
+      "out_of_state_tuition": 52000,
+      "room_and_board": 12000,
+      "fees": 2200,
+      "location": "Ann Arbor, MI",
+      "description": "Public research university"
+    },
+    {
+      "id": "stanford",
+      "name": "Stanford University",
+      "in_state_tuition": 56169,
+      "out_of_state_tuition": 56169,
+      "room_and_board": 18000,
+      "fees": 1000,
+      "location": "Stanford, CA",
+      "description": "Private research university"
+    },
+    {
+      "id": "mit",
+      "name": "Massachusetts Institute of Technology",
+      "in_state_tuition": 55878,
+      "out_of_state_tuition": 55878,
+      "room_and_board": 16000,
+      "fees": 350,
+      "location": "Cambridge, MA",
+      "description": "Private research university"
+    },
+    {
+      "id": "yale",
+      "name": "Yale University",
+      "in_state_tuition": 59950,
+      "out_of_state_tuition": 59950,
+      "room_and_board": 18500,
+      "fees": 0,
+      "location": "New Haven, CT",
+      "description": "Private Ivy League research university"
+    },
+    {
+      "id": "ucla",
+      "name": "University of California, Los Angeles",
+      "in_state_tuition": 13240,
+      "out_of_state_tuition": 43318,
+      "room_and_board": 17000,
+      "fees": 2500,
+      "location": "Los Angeles, CA",
+      "description": "Public research university"
+    },
+    {
+      "id": "penn",
+      "name": "University of Pennsylvania",
+      "in_state_tuition": 60042,
+      "out_of_state_tuition": 60042,
+      "room_and_board": 18000,
+      "fees": 7000,
+      "location": "Philadelphia, PA",
+      "description": "Private Ivy League research university"
+    },
+    {
+      "id": "columbia",
+      "name": "Columbia University",
+      "in_state_tuition": 63530,
+      "out_of_state_tuition": 63530,
+      "room_and_board": 16500,
+      "fees": 2500,
+      "location": "New York, NY",
+      "description": "Private Ivy League research university"
+    }
+  ]
+} 
